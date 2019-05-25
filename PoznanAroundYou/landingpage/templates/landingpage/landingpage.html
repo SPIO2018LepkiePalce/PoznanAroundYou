@@ -6,8 +6,33 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 </head>
-<body>
-    <h1>Poznan wokół Ciebie</h1>
+<body onload="getLocation()">
+        <h1>Poznan wokół Ciebie</h1>
+        
+        
+        <p id="demo"></p>
+        
+        <script>
+        var x = document.getElementById("demo");
+        
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+          }
+        }
+        
+        function showPosition(position) {
+          x.innerHTML = "Twoja lokalizacja: Lat: " + position.coords.latitude + 
+          " Lon: " + position.coords.longitude;
+        }
+        </script>    
+
+
+
+
+
 <form action = "/bikes" method="GET">
     {% csrf_token %}
     {{ form }}
