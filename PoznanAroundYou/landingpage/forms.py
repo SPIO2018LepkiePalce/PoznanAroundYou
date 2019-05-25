@@ -5,4 +5,4 @@ MY_CHOICES = (
 )
 
 class DropdownForm(forms.Form):
-    my_choice_field = forms.ChoiceField(choices=MY_CHOICES)
+    wybierz_usługę = forms.ChoiceField(choices=MY_CHOICES)
