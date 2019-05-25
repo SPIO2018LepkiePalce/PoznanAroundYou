@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 import json
 from datetime import datetime
 from haversine import haversine
+
 
 class GeoDistanceCalculator:
     @staticmethod
@@ -11,8 +11,7 @@ class GeoDistanceCalculator:
         distance = -1
         if dist_type == "greatcircle":
             # distance = int(great_circle(user_location, target_location).meters)
-            distance = int(haversine(user_location, target_location, unit = 'm'))
-            distance
+            distance = int(haversine(user_location, target_location, unit='m'))
         return distance
 
 
@@ -63,14 +62,6 @@ class BikeRacks:
             free_bikes = bikeracks['properties']['bikes']
             self.bikeracks_data.append(BikeRack(lat, lon, name, free_bikes))
 
-    def print_racks_data(self, how_many=0):
-        for bkr in self.bikeracks_data[0:how_many]:
-            print(bkr)
-
-    def print_racks_dict(self, how_many=0):
-        for bkr in self.bikeracks_data[0:how_many]:
-            print(bkr.as_dict())
-
     def get_racks_data_as_str(self, how_many=0):
         response = ""
         for bkr in self.bikeracks_data[0:how_many]:
@@ -78,23 +69,14 @@ class BikeRacks:
             response += " \n "
         return str(response)
 
-    def get_racks_data_as_dict(self,how_many=0):
-        response = { "racks_data" : []}
-        for bkr in self.bikeracks_data[0:how_many]:
-            pass
-
-    # def get_single_rack_as_string(self, num):
-    #     rack_str = ""
-    #     rack_str.join()
-    #     self.bikeracks_data[num]
+    def get_racks_data_as_list(self,how_many=5):
+        response = []
+        for i in range(0, how_many):
+            response.append(self.bikeracks_data)
+        return response
 
     def get_single_rack_data(self, which=0):
         return self.bikeracks_data[which]
-
-    def get_single_rack_data_as_list(self, which=0):
-        rack_data_list = []
-        rack_data_list.append(self.bikeracks_data[which].name)
-        return rack_data_list
 
     def find_bikerack_distances(self, user_location):
         for bikerack in self.bikeracks_data:
@@ -109,11 +91,9 @@ class BikeRacks:
 def index(request):
 
     br = BikeRacks()
-    # results = br.get_single_rack_place(5)
-    # results = br.get_single_rack_data_as_list(1)
     my_loc = (16.9504174, 52.4035332)
     br.find_bikerack_distances(my_loc)
     br.sort_bikeracks_by_distance()
     results = br.get_racks_data_as_str(10)
-
+    # results = br.get_racks_data_as_list()
     return render(request, 'bikes/bikes.html', {'bikeracks': results})
