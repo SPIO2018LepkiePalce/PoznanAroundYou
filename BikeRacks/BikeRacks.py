@@ -80,3 +80,12 @@ class BikeRacks:
     def sort_bikeracks_by_distance(self):
         self.bikeracks_data.sort(key=lambda x: x.distance_to)
 
+
+if __name__ == '__main__':
+    brj = BikeRackJSON()
+    # print(brj.get_json())
+    br = BikeRacks()
+    print(br.bikeracks_data[0])
+    print(br.get_single_rack_data(0))
+    print(br.get_racks_data_as_str(10))
+
