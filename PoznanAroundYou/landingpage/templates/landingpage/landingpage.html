@@ -3,10 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Landingpage</title>
+    <script>
+    function getLocation() {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+
+    function showPosition(position) {
+      x.innerHTML = "Latitude: " + position.coords.latitude +
+      "<br>Longitude: " + position.coords.longitude;
+    }
+    function SetPositionForm(position) {
+      document.getElementById("lat").value = position.coords.latitude;
+      document.getElementById("lon").value = position.coords.longitude;
+    }
+    </script>
 </head>
-<body>
-        <form class="form-horizontal">
+<body onload="getLocation()">
+
+    <p onload="showPosition()" id="x"></p>
+
+        <form class="form-horizontal" action="/bikes" onload="SetPositionForm()">
                 <fieldset>
+                    <input type="text" id="lat" name="lat">
+                    <input type="text" id="lon" name="lon">
                 
                 <!-- Form Name -->
                 <legend>Poznań wokół Ciebie</legend>
@@ -28,7 +47,7 @@
                     <button id="singlebutton" name="singlebutton" class="btn btn-primary">Wyszukaj</button>
                   </div>
                 </div>
-                
+
                 </fieldset>
                 </form>
                 
