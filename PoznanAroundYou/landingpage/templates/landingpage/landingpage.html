@@ -9,8 +9,7 @@
     }
 
     function showPosition(position) {
-      x.innerHTML = "Latitude: " + position.coords.latitude +
-      "<br>Longitude: " + position.coords.longitude;
+      x.innerHTML = "Twoja Lokalizacja: <br>Lat: " + position.coords.latitude + " Lon: " + position.coords.longitude;
     }
     function SetPositionForm(position) {
       document.getElementById("lat").value = position.coords.latitude;
@@ -28,7 +27,7 @@
                     <input type="text" id="lon" name="lon">
                 
                 <!-- Form Name -->
-                <legend>Poznań wokół Ciebie</legend>
+                <legend>Poznań wokół Ciebie - wyszukaj najbliższe obiekty</legend>
                 
                 <!-- Select Basic -->
                 <div class="form-group">
