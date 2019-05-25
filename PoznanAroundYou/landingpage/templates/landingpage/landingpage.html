@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Landingpage</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 </head>
 <body>
+    <h1>Poznan wokół Ciebie</h1>
 <form action = "/bikes" method="GET">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Submit">
+    <input type="submit" value="Wyszukaj">
 </form>
 </body>
 </html>
