@@ -35,7 +35,7 @@ class BikeRack:
         self.updated = 0
 
     def __str__(self):
-        return "place: {}, {}. name: {}, free bikes: {}, distance: {}, last updated {}"\
+        return "Współrzędne: {}, {}. Nazwa: {}, Wolnych rowerów: {}, Odległość: {} metrów, Ostatnia Aktualizacja {}"\
             .format(self.lon, self.lat, self.name, self.free_bikes, self.distance_to, self.updated)
 
     def as_dict(self):
@@ -69,11 +69,11 @@ class BikeRacks:
             response += " \n "
         return str(response)
 
-    def get_racks_data_as_list(self,how_many=5):
+    def get_racks_data_as_dict(self, how_many=0):
         response = []
         for i in range(0, how_many):
-            response.append(self.bikeracks_data)
-        return response
+            response.append(self.bikeracks_data[i].as_dict())
+        return {"response": response }
 
     def get_single_rack_data(self, which=0):
         return self.bikeracks_data[which]
@@ -94,6 +94,9 @@ def index(request):
     my_loc = (16.9504174, 52.4035332)
     br.find_bikerack_distances(my_loc)
     br.sort_bikeracks_by_distance()
-    results = br.get_racks_data_as_str(10)
-    # results = br.get_racks_data_as_list()
-    return render(request, 'bikes/bikes.html', {'bikeracks': results})
+    # results = br.get_racks_data_as_str(5)
+    # return render(request, 'bikes/bikes.html', {'bikeracks': results})
+
+    results = br.get_racks_data_as_dict(5)
+    return render(request, 'bikes/bikes.html', {'results' : results})
+
