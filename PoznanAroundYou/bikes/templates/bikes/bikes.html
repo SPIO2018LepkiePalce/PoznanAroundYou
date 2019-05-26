@@ -97,6 +97,19 @@ nav {
     border: none;
 }
 
+.results {
+    position: absolute;
+    top: 250px;
+    left: 10px;
+    z-index: 10;
+    width: 450px;
+    height: auto;
+    background-color: white;
+    color: black;
+    font-size: 10px;
+
+}
+
 
 
 
@@ -119,6 +132,7 @@ nav {
 <div class="location">Twoja lokalizacja</div>
 <div class="bikes">Stacje rowerów miejskich</div>
 <button class="find-button">Wyszukaj</button>
+<div class="results">LOL</div>
 </div>
 
 </div>
@@ -130,17 +144,23 @@ nav {
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map-preview'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+          center: {lat:  52.409538, lng: 16.931992 },
+          zoom: 13
         });
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyW1KFtAnVrMSXCmsZzYzNVCLqKtS7e84&callback=initMap"
     async defer></script>
+<script>
+    var wynik = "{{results.response.0.name}} | {{results.response.0.distance_to}} metrów stąd | {{results.response.0.free_bikes}} wolnych rowerów \n";
+    wynik += "{{results.response.1.name}} | {{results.response.1.distance_to}} metrów stąd | {{results.response.1.free_bikes}} wolnych rowerów \n"
+    wynik += "{{results.response.2.name}} | {{results.response.2.distance_to}} metrów stąd | {{results.response.2.free_bikes}} wolnych rowerów \n"
+    wynik += "{{results.response.3.name}} | {{results.response.3.distance_to}} metrów stąd | {{results.response.3.free_bikes}} wolnych rowerów \n"
+    wynik += "{{results.response.4.name}} | {{results.response.4.distance_to}} metrów stąd | {{results.response.4.free_bikes}} wolnych rowerów"
+    document.querySelector('.results').innerText = wynik;
+    if (wynik.contains("nieznany")) {document.querySelector('.results').style="width: 0;";}
+</script>
 
-
-
-    
 
 </body>
 

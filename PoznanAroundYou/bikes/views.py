@@ -113,12 +113,15 @@ def default(request):
 def index(request, lat, lon):
 
     br = BikeRacks()
-    my_loc = (float(lat), float(lon))
+    my_loc = (float(lon), float(lat))
     br.find_bikerack_distances(my_loc)
     br.sort_bikeracks_by_distance()
     # results = br.get_racks_data_as_str(5)
     # return render(request, 'bikes/bikes.html', {'bikeracks': results})
-    results = br.get_racks_data_as_dict(5)
+    if lat == "0" and lon == "0":
+        results = br.get_racks_data_as_dict(0)
+    else:
+        results = br.get_racks_data_as_dict(5)
     return render(request, 'bikes/bikes.html', {'results': results})
 
 
