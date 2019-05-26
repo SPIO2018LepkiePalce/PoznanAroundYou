@@ -1,8 +1,9 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 import json
 from datetime import datetime
 from haversine import haversine
+import requests
+import os
 
 
 class GeoDistanceCalculator:
@@ -18,11 +19,27 @@ class GeoDistanceCalculator:
 class BikeRackJSON:
     def __init__(self):
         self.bikejson = ""
-        with open("bikes.txt", "r", encoding="utf-8") as bikefile:
-            self.bikejson = json.load(bikefile)
+
+        if not os.path.isfile('bikes.txt'):
+            self.update_bikes_file()
+        else:
+            self.bikejson = self.read_bikes_file()
 
     def get_json(self):
         return self.bikejson
+
+    def update_bikes_file(self):
+        with open("bikes.txt", "w", encoding="utf-8") as bikefile:
+            json.dump(self.download_json_from_api(), bikefile)
+
+    def read_bikes_file(self):
+        with open("bikes.txt", "r", encoding="utf-8") as bikefile:
+            return json.load(bikefile)
+
+    def download_json_from_api(self):
+        url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=stacje_rowerowe"
+        r = requests.get(url)
+        return r.json()
 
 
 class BikeRack:
@@ -73,7 +90,7 @@ class BikeRacks:
         response = []
         for i in range(0, how_many):
             response.append(self.bikeracks_data[i].as_dict())
-        return {"response": response }
+        return {"response": response}
 
     def get_single_rack_data(self, which=0):
         return self.bikeracks_data[which]
@@ -88,15 +105,28 @@ class BikeRacks:
         self.bikeracks_data.sort(key=lambda x: x.distance_to)
 
 
-def index(request):
+def default(request):
+    response = redirect('/bikes/0/0')
+    return response
+
+
+def index(request, lat, lon):
 
     br = BikeRacks()
-    my_loc = (16.9504174, 52.4035332)
+    my_loc = (float(lat), float(lon))
     br.find_bikerack_distances(my_loc)
     br.sort_bikeracks_by_distance()
     # results = br.get_racks_data_as_str(5)
     # return render(request, 'bikes/bikes.html', {'bikeracks': results})
 
     results = br.get_racks_data_as_dict(5)
-    return render(request, 'bikes/bikes.html', {'results' : results})
+    return render(request, 'bikes/bikes.html', {'results': results})
 
+
+def location_map(request):
+    return render(request, 'bikes/location_map.html', {})
+
+
+def location_map(request, lat, lon):
+    coords = {'lat': lat, 'lon': lon}
+    return render(request, 'bikes/location_map.html', coords)
