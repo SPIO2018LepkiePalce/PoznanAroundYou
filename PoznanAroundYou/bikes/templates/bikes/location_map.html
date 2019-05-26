@@ -1,0 +1,14 @@
+{% load easy_maps_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MAPA</title>
+</head>
+<body>
+<p> LAT: {{ lat }}</p>
+<p> LON: {{ lon }}</p>
+<p>data: {{lon}}, {{lat}}</p>
+{% easy_map "{{lon}} {{lat}}" 800 600 %}
+</body>
+</html>
