@@ -118,13 +118,8 @@ def index(request, lat, lon):
     br.sort_bikeracks_by_distance()
     # results = br.get_racks_data_as_str(5)
     # return render(request, 'bikes/bikes.html', {'bikeracks': results})
-
     results = br.get_racks_data_as_dict(5)
     return render(request, 'bikes/bikes.html', {'results': results})
-
-
-def location_map(request):
-    return render(request, 'bikes/location_map.html', {})
 
 
 def location_map(request, lat, lon):
