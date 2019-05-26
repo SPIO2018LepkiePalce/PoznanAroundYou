@@ -1,12 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans';
+    font-size: 18px;
+    font-weight: 700;
+}
+
+header {
+    height: 10vh;
+    width: 100vw;
+    background-color: #CED8F6;
+}
+
+nav {
+    height: 100%;
+    width: 10%;
+    background-color: #CED8F6; 
+    float: left;
+}
+
+.map-wrapper {
+    height: 90vh;
+    width: 100vw;
+    position: relative;
+}
+
+#map-preview {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.content-inside-map {
+    width: 90%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 10%;
+    z-index: 2;
+}
+
+.location {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    z-index: 10;
+    width: 350px;
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+    background-color: white;
+     color: #A7A7B6;
+     padding-left: 30px;
+     border: 1px solid #CFCAC4;
+}
+
+.bikes {
+    position: absolute;
+    top: 110px;
+    left: 10px;
+    z-index: 10;
+    width: 350px;
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+    background-color: white;
+    color: #A7A7B6;
+    padding-left: 30px;
+    border: 1px solid #CFCAC4;
+   
+}
+
+.find-button {
+    position: absolute;
+    top: 180px;
+    left: 10px;
+    z-index: 10;
+    width: 350px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #01DF01;
+    color: white;
+    border: none;
+}
+
+
+
+    </style>
 </head>
+
 <body>
-{{ results|linebreaks }}
+
+<header>
+<div class="dropdown"><div>
+</header>
+
+<div class="map-wrapper">
+<div id="map-preview"></div>
+
+<div class="content-inside-map">
+<div class="location">Twoja lokalizacja</div>
+<div class="bikes">Stacje rowerów miejskich</div>
+<button class="find-button">Wyszukaj</button>
+</div>
+
+</div>
+</div>
+
+
+
+<script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map-preview'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyW1KFtAnVrMSXCmsZzYzNVCLqKtS7e84&callback=initMap"
+    async defer></script>
+
+
+
+    
+
 </body>
+
+{% comment %} <script>
+    var zmienna = {{ results.response.0.free_bikes }};
+</script> {% endcomment %}
+<script>
+
+document.querySelector('.find-button').addEventListener("click", getLocation);
+
+  
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+
+function showPosition(position) {
+
+    window.open('/bikes/'+ position.coords.latitude + '/' + position.coords.longitude ) ;
+
+  }
+
+
+
+
+</script>
+
+
+
 </html>
+
+<!-- czy widac zmiane? -->
