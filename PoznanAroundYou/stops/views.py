@@ -4,6 +4,7 @@ from haversine import haversine
 import requests
 import json
 import os
+from datetime import datetime
 
 class GeoDistanceCalculator:
     @staticmethod
@@ -56,15 +57,34 @@ class TransportStop:
 class TransportStops:
     def __init__(self):
         self.transportstops_data = []
+        self.names = []
 
         transportstopjson = TransportStopJSON()
 
         for transportstops in transportstopjson.get_json()['features']:
-            lat = transportstops['geometry']['coordinates'][0]
-            lon = transportstops['geometry']['coordinates'][1]
-            name = transportstops['properties']['stop_name']
-            lines = transportstops['properties']['headsigns'].replace(" ","").split(",")
-            self.transportstops_data.append(TransportStop(lat, lon, name, lines))
+            if transportstops['properties']['stop_name'] not in self.names:
+                lat = transportstops['geometry']['coordinates'][0]
+                lon = transportstops['geometry']['coordinates'][1]
+                name = transportstops['properties']['stop_name']
+                lines = transportstops['properties']['headsigns'].replace(" ","").split(",")
+                self.transportstops_data.append(TransportStop(lat, lon, name, lines))
+                self.names.append(transportstops['properties']['stop_name'])
+            else:
+                # super dirty method to find stops with the same name, and in such case, only append the line numbers
+                for transportstops_data_search in self.transportstops_data:
+                    if transportstops_data_search.name == transportstops['properties']['stop_name']:
+                        transportstops_data_search.lines.extend(transportstops['properties']['headsigns'].replace(" ","").split(","))
+                        transportstops_data_search.lines = list(set(transportstops_data_search.lines))
+                        transportstops_data_search.lines.sort()
+
+    def find_transport_stop_distances(self, user_location):
+        for transport_stop in self.transportstops_data:
+            target_location = (transport_stop.lat, transport_stop.lon)
+            transport_stop.distance_to = GeoDistanceCalculator.get_distance(user_location, target_location, "greatcircle")
+            transport_stop.updated = datetime.utcnow()
+
+    def sort_transport_stos_by_distance(self):
+        self.transportstops_data.sort(key=lambda x: x.distance_to)
 
 def default(response):
     return HttpResponse("this is stops")
@@ -73,5 +93,7 @@ def default(response):
 
 if __name__ == '__main__':
     ts = TransportStops()
+    ts.find_transport_stop_distances((16.9086372,52.432585))
+    ts.sort_transport_stos_by_distance()
     for t in ts.transportstops_data:
         print(t)
