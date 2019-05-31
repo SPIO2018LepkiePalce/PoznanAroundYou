@@ -198,16 +198,66 @@
                 title: 'Hello World!'
             });
 
+            if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
+                var marker_1 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.0.lon}},
+                        lng: {{results.response.0.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_2 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.1.lon}},
+                        lng: {{results.response.1.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_3 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.2.lon}},
+                        lng: {{results.response.2.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_4 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.3.lon}},
+                        lng: {{results.response.3.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_5 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.4.lon}},
+                        lng: {{results.response.4.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+
+
+
+
+
+
+            }
+
         }
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw&callback=initMap"
         async defer>
     </script>
-
-
-
-
 
     <script>
         var itemToAdd = document.createElement("div");
@@ -242,6 +292,17 @@
 
         if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
             document.getElementById('result-wrapper').style.visibility = "visible";
+
+            var marker_2 = new google.maps.Marker({
+                position: {
+                    lat: 52.401802,
+                    lng: 16.899802
+                },
+                title: "Hello World!"
+            });
+            marker_2.setMap(map);
+
+
         }
 
         /* function showResults() {
