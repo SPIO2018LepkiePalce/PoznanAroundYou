@@ -46,7 +46,7 @@ class TransportStop:
     def as_dict(self):
         transportstop_dict = dict()
         transportstop_dict['name'] = self.name
-        transportstop_dict['free_bikes'] = self.lines
+        transportstop_dict['lines'] = self.lines
         transportstop_dict['lon'] = self.lon
         transportstop_dict['lat'] = self.lat
         transportstop_dict['distance_to'] = self.distance_to
@@ -83,17 +83,27 @@ class TransportStops:
             transport_stop.distance_to = GeoDistanceCalculator.get_distance(user_location, target_location, "greatcircle")
             transport_stop.updated = datetime.utcnow()
 
-    def sort_transport_stos_by_distance(self):
+    def sort_transport_stops_by_distance(self):
         self.transportstops_data.sort(key=lambda x: x.distance_to)
 
-def default(response):
-    return HttpResponse("this is stops")
+    def get_transport_stops_data_as_dict(self, how_many=0):
+        response = []
+        for i in range(0, how_many):
+            response.append(self.transportstops_data[i].as_dict())
+        return {"response": response}
+
+def default(request):
+    ts = TransportStops()
+    ts.find_transport_stop_distances((16.9086372,52.432585))
+    ts.sort_transport_stops_by_distance()
+    results = ts.get_transport_stops_data_as_dict(5)
+    return render(request, 'stops/stops.html', {'results': results})
 
 # Create your views here.
 
 if __name__ == '__main__':
     ts = TransportStops()
     ts.find_transport_stop_distances((16.9086372,52.432585))
-    ts.sort_transport_stos_by_distance()
+    ts.sort_transport_stops_by_distance()
     for t in ts.transportstops_data:
         print(t)
