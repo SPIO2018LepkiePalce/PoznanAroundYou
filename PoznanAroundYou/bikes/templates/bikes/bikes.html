@@ -122,7 +122,7 @@
     </style>
 </head>
 
-<body onload="showResults()">
+<body>
 
     <header>
         <div class="logo">logo</div>
@@ -141,31 +141,39 @@
         <div id="result-wrapper"></div>
     </div>
 
-
     <!-- skrypty-->
     <script>
-    
-        // resetuje pozycje
         var positionLat = 0;
         var positionLon = 0;
-        
-        // ustalam aktualne koordynaty
-        getLocation();
+
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(assignCoordinates);
+                navigator.geolocation.getCurrentPosition(showPosition);
             } else {
-                console.log("Geolocation is not supported by this browser.");
+                x.innerHTML = "Geolocation is not supported by this browser.";
             }
         }
 
-        function assignCoordinates(position) {
+        function showPosition(position) {
+            console.log(position.coords.latitude);
+            console.log(position.coords.longitude);
             positionLat = position.coords.latitude;
             positionLon = position.coords.longitude;
         }
 
+
+        getLocation();
+
+        // dodaje obsluge przycisku
+        document.querySelector('#search-btn').addEventListener("click", function () {
+            window.open('/bikes/' + positionLat + '/' + positionLon, "_self");
+        });
+    </script>
+
+    <script>
         // laduje mapke google z aktualnym polozeniem
         var map;
+
         function initMap() {
             map = new google.maps.Map(document.getElementById('map-wrapper'), {
                 center: {
@@ -190,63 +198,16 @@
                 title: 'Hello World!'
             });
 
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: {{results.response.0.lon}},
-                    lng: {{results.response.0.lat}}
-                },
-                map: map,
-                title: 'Hello World2!'
-            });
-
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: {{results.response.1.lon}},
-                    lng: {{results.response.1.lat}}
-                },
-                map: map,
-                title: 'Hello World2!'
-            });
-
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: {{results.response.2.lon}},
-                    lng: {{results.response.2.lat}}
-                },
-                map: map,
-                title: 'Hello World2!'
-            });
-
-             var marker = new google.maps.Marker({
-                position: {
-                    lat: {{results.response.3.lon}},
-                    lng: {{results.response.3.lat}}
-                },
-                map: map,
-                title: 'Hello World2!'
-            });
-
-             var marker = new google.maps.Marker({
-                position: {
-                    lat: {{results.response.4.lon}},
-                    lng: {{results.response.4.lat}}
-                },
-                map: map,
-                title: 'Hello World2!'
-            });
-            
         }
-
-        // dodaje obsluge przycisku
-        document.querySelector('#search-btn').addEventListener("click", function () {
-            window.open('/bikes/' + positionLat + '/' + positionLon);
-        });
-        
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw&callback=initMap"
         async defer>
     </script>
+
+
+
+
 
     <script>
         var itemToAdd = document.createElement("div");
@@ -279,18 +240,22 @@
             '<div class="left-column"><div class="name"><i class="fas fa-map-pin"></i> {{results.response.4.name}}</div><div class="distance"><i class="fas fa-road"></i> {{results.response.4.distance_to}} metrów stąd</div></div><div class="right-column"><i class="fas fa-bicycle"></i> {{results.response.4.free_bikes}}</div>'; // Insert text
         document.getElementById('result-wrapper').appendChild(itemToAdd);
 
+        if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
+            document.getElementById('result-wrapper').style.visibility = "visible";
+        }
 
-        function showResults() {
+        /* function showResults() {
             if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
-                document.getElementById('result-wrapper').style.visibility = "visible";          
+                document.getElementById('result-wrapper').style.visibility = "visible";
             }
-            
-        };
+
+        }; */
     </script>
 
     <script src="https://kit.fontawesome.com/cdc21249f1.js"></script>
 
 </body>
+
 </html>
 
 <!-- wersja 2.0 by mackowiak -->
