@@ -97,13 +97,13 @@ def default(request):
 
 
 def index(request, lat, lon):
-    ts = TicketMachines()
+    tm = TicketMachines()
     my_loc = (float(lon), float(lat))
-    ts.find_ticket_machines_distances(my_loc)
-    ts.sort_ticket_machines_by_distance()
+    tm.find_ticket_machines_distances(my_loc)
+    tm.sort_ticket_machines_by_distance()
     if lat == "0" and lon == "0":
-        results = ts.get_ticket_machines_data_as_dict(0)
+        results = tm.get_ticket_machines_data_as_dict(0)
     else:
-        results = ts.get_ticket_machines_data_as_dict(5)
+        results = tm.get_ticket_machines_data_as_dict(5)
     return render(request, 'ticketmachines/ticketmachines.html', {'results': results})
 

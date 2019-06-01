@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from haversine import haversine
 import requests
@@ -99,11 +99,19 @@ def default(request):
     results = ts.get_transport_stops_data_as_dict(5)
     return render(request, 'stops/stops.html', {'results': results})
 
-# Create your views here.
+def default(request):
+    response = redirect('/ticketmachines/0/0')
+    return response
 
-if __name__ == '__main__':
+
+def index(request, lat, lon):
+    my_loc = (float(lon), float(lat))
     ts = TransportStops()
-    ts.find_transport_stop_distances((16.9086372,52.432585))
+    ts.find_transport_stop_distances((16.9086372, 52.432585))
     ts.sort_transport_stops_by_distance()
-    for t in ts.transportstops_data:
-        print(t)
+    if lat == "0" and lon == "0":
+        results = ts.get_transport_stops_data_as_dict(0)
+    else:
+        results = ts.get_transport_stops_data_as_dict(5)
+    return render(request, 'ticketmachines/ticketmachines.html', {'results': results})
+
