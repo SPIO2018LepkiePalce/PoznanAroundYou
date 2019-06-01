@@ -5,6 +5,13 @@ import requests
 import json
 import os
 from datetime import datetime
+import re
+
+
+def remove_html_tags(text):
+    """Remove html tags from a string"""
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
 
 class GeoDistanceCalculator:
     @staticmethod
@@ -46,7 +53,7 @@ class TicketMachine:
     def as_dict(self):
         ticketmachine_dict = dict()
         ticketmachine_dict['name'] = self.name
-        ticketmachine_dict['desc'] = self.desc
+        ticketmachine_dict['desc'] = remove_html_tags(self.desc)
         ticketmachine_dict['lon'] = self.lon
         ticketmachine_dict['lat'] = self.lat
         ticketmachine_dict['distance_to'] = self.distance_to
