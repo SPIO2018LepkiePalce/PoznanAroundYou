@@ -1,8 +1,5 @@
 from django.shortcuts import render, redirect
-import json
 from datetime import datetime
-import requests
-import os
 from GeoDistanceCalculator.GeoDistanceCalculator import GeoDistanceCalculator
 from ServiceAPIJSON.ServiceAPIJSON import ServiceAPIJSON
 
@@ -76,13 +73,10 @@ def default(request):
 
 
 def index(request, lat, lon):
-
     br = BikeRacks()
     my_loc = (float(lon), float(lat))
     br.find_bikerack_distances(my_loc)
     br.sort_bikeracks_by_distance()
-    # results = br.get_racks_data_as_str(5)
-    # return render(request, 'bikes/bikes.html', {'bikeracks': results})
     if lat == "0" and lon == "0":
         results = br.get_racks_data_as_dict(0)
     else:
