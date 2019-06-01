@@ -159,7 +159,7 @@
     <div id="map-wrapper">
     </div>
     <div id="panel">
-        <input type="text" class="location" value="Twoja lokalizacja">
+        <input type="text" id="address" class="location">
         <select name="" id="items-type">
             <option value="bikes">Stacje rowerów</option>
             <option value="ticket_machines">Biletomaty</option>
@@ -169,8 +169,20 @@
         <div id="result-wrapper"></div>
     </div>
 
+
+
+
+
+
+
+
+
+
     <!-- skrypty-->
     <script>
+
+
+
         var positionLat = 0;
         var positionLon = 0;
         var initialized = false;
@@ -184,8 +196,8 @@
         }
 
         function showPosition(position) {
-            console.log(position.coords.latitude);
-            console.log(position.coords.longitude);
+            console.log('wykrylem ' + position.coords.latitude);
+            console.log('wykrylem ' + position.coords.longitude);
             positionLat = position.coords.latitude;
             positionLon = position.coords.longitude;
             initialized = true;
@@ -194,21 +206,65 @@
 
         getLocation();
 
+        {% comment %} var browserAddress = window.location.href.split("/")
+        positionLat = browserAddress[browserAddress.length - 2];
+        positionLon = browserAddress[browserAddress.length - 1];
+        initialized = true; {% endcomment %}
+
         // dodaje obsluge przycisku
         document.querySelector('#search-btn').addEventListener("click", function () {
-            window.open('/bikes/' + positionLat + '/' + positionLon, "_self");
+            fetchData(myAddress);
         });
+        
     </script>
 
     <script>
         // laduje mapke google z aktualnym polozeniem
         var map;
+        var autocomplete;
+        var myAddress;
+
+        function fetchData(adres_inputa_string) {
+
+            let re = new RegExp(' ', 'g');
+            let searchFor = adres_inputa_string.replace(re, '+');
+            console.log('szukam koordynat dla: ' + searchFor);
+            fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + searchFor + '&key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw')
+                    .then(function(response) {
+                    return response.json();
+                    })
+                    .then(function(myJson) {
+                    positionLat = myJson.results[0].geometry.location.lat;
+                    positionLon = myJson.results[0].geometry.location.lng;
+                    window.open('/bikes/' + positionLat + '/' + positionLon, "_self");
+                    });
+        }
 
         function initMap() {
             if (!initialized) {
                 setTimeout(initMap, 1000);
                 return;
             }
+
+
+                autocomplete = new google.maps.places.Autocomplete(document.getElementById("address"), {});
+
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    var place = autocomplete.getPlace();
+                    console.log('autouzupelniam ' + place.address_components);
+                    myAddress = document.getElementById("address").value;
+                    //konwertuj do stringa
+               
+                    
+
+
+                    
+                });
+
+
+
+
+
             map = new google.maps.Map(document.getElementById('map-wrapper'), {
                 center: {
                     lat: positionLat,
@@ -232,7 +288,7 @@
                 
                 title: 'Twoja pozycja!'
             });
-            var icon = {url:'https://www.speedphoto.pl/wp-content/themes/fotobudka/img/logo.png', size: new google.maps.Size(20, 32)};
+            var icon = {url: '{% static "bike/logo.png" %}', size: new google.maps.Size(50, 50)};
             marker.setIcon(icon);
             
             if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
@@ -281,18 +337,12 @@
                     title: "Hello World!"
                 });
 
-
-
-
-
-
-
             }
 
         }
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw&callback=initMap&libraries=places"
         async defer>
     </script>
 
@@ -351,6 +401,8 @@
     </script>
 
     <script src="https://kit.fontawesome.com/cdc21249f1.js"></script>
+
+
 
 </body>
 
