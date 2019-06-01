@@ -105,3 +105,5 @@ if __name__ == '__main__':
     ts.sort_ticket_machines_by_distance()
     for t in ts.ticketmachines_data:
         print(t)
+
+#lol
