@@ -60,7 +60,6 @@
             top: 80px;
             left: 0;
             width: 400px;
-            height: 100%;
             margin-left: 10%;
             padding: 50px 0;
             z-index: 1;
@@ -146,9 +145,10 @@
 </head>
 
 <body>
+{% load static %}
 
     <header>
-        <div class="logo">logo</div>
+        <div class="logo"><img src="{% static "bike/logo.png" %}" alt="My image"></div>
         <div class="caption"><p>City around you</p><span>Poznań</span></div>
     </header>
     <div id="map-wrapper">
