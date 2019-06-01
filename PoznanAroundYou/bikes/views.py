@@ -78,7 +78,7 @@ def index(request, lat, lon):
     br.find_bikerack_distances(my_loc)
     br.sort_bikeracks_by_distance()
     if lat == "0" and lon == "0":
-        results = br.get_racks_data_as_dict(0)
+        results = br.get_racks_data_as_dict(5)
     else:
         results = br.get_racks_data_as_dict(5)
     return render(request, 'bikes/bikes.html', {'results': results})
