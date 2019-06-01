@@ -1,1 +1,1 @@
-web: gunicorn PoznanAroundYou.wsgi
+web: gunicorn {{ project_name }}.wsgi
