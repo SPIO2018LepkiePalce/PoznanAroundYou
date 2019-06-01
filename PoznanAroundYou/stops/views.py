@@ -1,7 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-import json
-import os
 from datetime import datetime
 from GeoDistanceCalculator.GeoDistanceCalculator import GeoDistanceCalculator
 from ServiceAPIJSON.ServiceAPIJSON import ServiceAPIJSON
@@ -43,11 +40,12 @@ class TransportStops:
                 lat = transportstops['geometry']['coordinates'][0]
                 lon = transportstops['geometry']['coordinates'][1]
                 name = transportstops['properties']['stop_name']
+                # 'headsigns' in the api is a string of line numbers, separated by comma and space
                 lines = transportstops['properties']['headsigns'].replace(" ","").split(",")
                 self.transportstops_data.append(TransportStop(lat, lon, name, lines))
                 self.names.append(transportstops['properties']['stop_name'])
             else:
-                # super dirty method to find stops with the same name, and in such case, only append the line numbers
+                #  Find stops with the same name, and in such case, only append the line numbers
                 for transportstops_data_search in self.transportstops_data:
                     if transportstops_data_search.name == transportstops['properties']['stop_name']:
                         transportstops_data_search.lines.extend(transportstops['properties']['headsigns'].replace(" ","").split(","))
