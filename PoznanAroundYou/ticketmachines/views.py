@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from haversine import haversine
 import requests
@@ -90,20 +90,20 @@ class TicketMachines:
             response.append(self.ticketmachines_data[i].as_dict())
         return {"response": response}
 
+
 def default(request):
+    response = redirect('/ticketmachines/0/0')
+    return response
+
+
+def index(request, lat, lon):
     ts = TicketMachines()
-    ts.find_ticket_machines_distances((16.9086372, 52.432585))
+    my_loc = (float(lon), float(lat))
+    ts.find_ticket_machines_distances(my_loc)
     ts.sort_ticket_machines_by_distance()
-    results = ts.get_ticket_machines_data_as_dict(5)
+    if lat == "0" and lon == "0":
+        results = ts.get_ticket_machines_data_as_dict(0)
+    else:
+        results = ts.get_ticket_machines_data_as_dict(5)
     return render(request, 'ticketmachines/ticketmachines.html', {'results': results})
 
-# Create your views here.
-
-if __name__ == '__main__':
-    ts = TicketMachines()
-    ts.find_ticket_machines_distances((16.9086372, 52.432585))
-    ts.sort_ticket_machines_by_distance()
-    for t in ts.ticketmachines_data:
-        print(t)
-
-#lol
