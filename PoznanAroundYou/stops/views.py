@@ -1,25 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from haversine import haversine
-import requests
 import json
 import os
 from datetime import datetime
 from GeoDistanceCalculator.GeoDistanceCalculator import GeoDistanceCalculator
-
-
-class TransportStopJSON:
-    def __init__(self):
-        self.transportstopjson = self.download_json_from_api()
-        # with open("stops.txt") as stops_file:
-
-    def get_json(self):
-        return self.transportstopjson
-
-    def download_json_from_api(self):
-        url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=cluster"
-        r = requests.get(url)
-        return r.json()
+from ServiceAPIJSON.ServiceAPIJSON import ServiceAPIJSON
 
 
 class TransportStop:
@@ -51,7 +36,7 @@ class TransportStops:
         self.transportstops_data = []
         self.names = []
 
-        transportstopjson = TransportStopJSON()
+        transportstopjson = ServiceAPIJSON("STOPS")
 
         for transportstops in transportstopjson.get_json()['features']:
             if transportstops['properties']['stop_name'] not in self.names:
@@ -84,12 +69,6 @@ class TransportStops:
             response.append(self.transportstops_data[i].as_dict())
         return {"response": response}
 
-def default(request):
-    ts = TransportStops()
-    ts.find_transport_stop_distances((16.9086372,52.432585))
-    ts.sort_transport_stops_by_distance()
-    results = ts.get_transport_stops_data_as_dict(5)
-    return render(request, 'stops/stops.html', {'results': results})
 
 def default(request):
     response = redirect('/ticketmachines/0/0')
