@@ -1,30 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from haversine import haversine
-import requests
-import json
-import os
 from datetime import datetime
 import re
 from GeoDistanceCalculator.GeoDistanceCalculator import GeoDistanceCalculator
+from ServiceAPIJSON.ServiceAPIJSON import ServiceAPIJSON
 
 def remove_html_tags(text):
     """Remove html tags from a string"""
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
-
-class TicketMachineJSON:
-    def __init__(self):
-        self.ticketmachinejson = self.download_json_from_api()
-        # with open("stops.txt") as stops_file:
-
-    def get_json(self):
-        return self.ticketmachinejson
-
-    def download_json_from_api(self):
-        url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=class_objects&class_id=4000"
-        r = requests.get(url)
-        return r.json()
 
 
 class TicketMachine:
@@ -56,7 +40,7 @@ class TicketMachines:
         self.ticketmachines_data = []
         self.names = []
 
-        ticketmachinesjson = TicketMachineJSON()
+        ticketmachinesjson = ServiceAPIJSON("TICKETMACHINES")
 
         for ticketmachines in ticketmachinesjson.get_json()['features']:
             lat = ticketmachines['geometry']['coordinates'][0]

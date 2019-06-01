@@ -1,45 +1,7 @@
 from django.shortcuts import render, redirect
-import json
 from datetime import datetime
-from haversine import haversine
-import requests
-import os
-
-
-class GeoDistanceCalculator:
-    @staticmethod
-    def get_distance(user_location, target_location, dist_type):
-        distance = -1
-        if dist_type == "greatcircle":
-            # distance = int(great_circle(user_location, target_location).meters)
-            distance = int(haversine(user_location, target_location, unit='m'))
-        return distance
-
-
-class BikeRackJSON:
-    def __init__(self):
-        self.bikejson = ""
-
-        if not os.path.isfile('bikes.txt'):
-            self.update_bikes_file()
-        else:
-            self.bikejson = self.read_bikes_file()
-
-    def get_json(self):
-        return self.bikejson
-
-    def update_bikes_file(self):
-        with open("bikes.txt", "w", encoding="utf-8") as bikefile:
-            json.dump(self.download_json_from_api(), bikefile)
-
-    def read_bikes_file(self):
-        with open("bikes.txt", "r", encoding="utf-8") as bikefile:
-            return json.load(bikefile)
-
-    def download_json_from_api(self):
-        url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=stacje_rowerowe"
-        r = requests.get(url)
-        return r.json()
+from GeoDistanceCalculator.GeoDistanceCalculator import GeoDistanceCalculator
+from ServiceAPIJSON.ServiceAPIJSON import ServiceAPIJSON
 
 
 class BikeRack:
@@ -70,7 +32,7 @@ class BikeRacks:
     def __init__(self):
         self.bikeracks_data = []
 
-        bikerackjson = BikeRackJSON()
+        bikerackjson = ServiceAPIJSON("BIKES")
 
         for bikeracks in bikerackjson.get_json()['features']:
             lat = bikeracks['geometry']['coordinates'][0]
@@ -111,13 +73,10 @@ def default(request):
 
 
 def index(request, lat, lon):
-
     br = BikeRacks()
     my_loc = (float(lon), float(lat))
     br.find_bikerack_distances(my_loc)
     br.sort_bikeracks_by_distance()
-    # results = br.get_racks_data_as_str(5)
-    # return render(request, 'bikes/bikes.html', {'bikeracks': results})
     if lat == "0" and lon == "0":
         results = br.get_racks_data_as_dict(0)
     else:
