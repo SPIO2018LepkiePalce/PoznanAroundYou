@@ -15,7 +15,6 @@ Django==2.2.1
 dnspython==1.16.0
 entrypoints==0.3
 evdev==1.1.2
-Flask==1.0.3
 haversine==2.1.1
 httplib2==0.11.3
 idna==2.6
