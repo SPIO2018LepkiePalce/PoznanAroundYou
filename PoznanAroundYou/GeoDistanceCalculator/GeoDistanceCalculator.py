@@ -2,6 +2,9 @@ from haversine import haversine
 
 
 class GeoDistanceCalculator:
+    def __init__(self):
+        pass
+
     @staticmethod
     def get_distance(user_location, target_location, dist_type):
         distance = -1
