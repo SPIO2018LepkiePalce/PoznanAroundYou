@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bikes',
     'landingpage',
     'stops',
+    'ticketmachines',
 ]
 
 MIDDLEWARE = [
