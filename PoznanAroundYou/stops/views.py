@@ -107,7 +107,7 @@ def default(request):
 def index(request, lat, lon):
     my_loc = (float(lon), float(lat))
     ts = TransportStops()
-    ts.find_transport_stop_distances((16.9086372, 52.432585))
+    ts.find_transport_stop_distances(my_loc)
     ts.sort_transport_stops_by_distance()
     if lat == "0" and lon == "0":
         results = ts.get_transport_stops_data_as_dict(0)
