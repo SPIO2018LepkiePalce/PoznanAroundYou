@@ -18,11 +18,11 @@ class GeoDistanceCalculator:
 
 class TransportStopJSON:
     def __init__(self):
-        self.bikejson = self.download_json_from_api()
+        self.transportstopjson = self.download_json_from_api()
         # with open("stops.txt") as stops_file:
 
     def get_json(self):
-        return self.bikejson
+        return self.transportstopjson
 
     def download_json_from_api(self):
         url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=cluster"
