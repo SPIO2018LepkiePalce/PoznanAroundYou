@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-import json
-import os
 from datetime import datetime
 import re
 from GeoDistanceCalculator.GeoDistanceCalculator import GeoDistanceCalculator
