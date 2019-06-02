@@ -110,6 +110,21 @@
             border-radius: 100%;
         }
 
+        .localize-me2 {
+            position: absolute;
+            left: 0;
+            top: 50px;
+            height: 50px;
+            width: 400px;
+            z-index: 2;
+            text-align: left;
+            line-height: 50px;
+            background-color: #00ADEF;
+            padding-left: 5px;
+            
+            
+        }
+
         .localize-me:hover {
             background-color: #01DF01;
         }
@@ -187,6 +202,7 @@
     <div id="map-wrapper">
     </div>
     <div id="panel">
+     <div class="localize-me2">Twoja lokalizacja</div>
      <div class="localize-me"><img src="{% static "bikes/localize_icon.png" %}" alt="My image" style="width: 70%;"></div>
         <input type="text" id="address" class="location">
         <select name="" id="items-type">
@@ -211,7 +227,7 @@
     <script>
 
 
-
+        var AskedForLocation = false;
         var positionLat = 0;
         var positionLon = 0;
         var initialized = false;
@@ -230,7 +246,7 @@
             positionLat = position.coords.latitude;
             positionLon = position.coords.longitude;
             initialized = true;
-            window.open('/bikes/' + positionLat + '/' + positionLon, "_self");
+            window.open('/bikes/1/' + positionLat + '/' + positionLon, "_self");
         }
 
 
@@ -241,6 +257,19 @@
         console.log('przyisuje lat ' + positionLat);
         positionLon = parseFloat(browserAddress[browserAddress.length - 1]);
         console.log('przyisuje lng ' + positionLon);
+        AskedForLocation = parseFloat(browserAddress[browserAddress.length - 3]);
+        if (AskedForLocation == 0) {
+            document.querySelector('.localize-me2').style.display = "none";
+            console.log('lokalizacja nie jest kliknieta');
+        }
+         if (AskedForLocation == 1) {
+            document.querySelector('.localize-me2').style.display = "block";
+            document.querySelector('.localize-me2').addEventListener('click', function() {
+                document.querySelector('.localize-me2').style.display = "none";
+            })
+             console.log('lokalizacja JEST wlaczona');
+        }
+
         initialized = true;
 
 
@@ -275,7 +304,7 @@
                     .then(function(myJson) {
                     positionLat = myJson.results[0].geometry.location.lat;
                     positionLon = myJson.results[0].geometry.location.lng;
-                    window.open('/bikes/' + positionLat + '/' + positionLon, "_self");
+                    window.open('/bikes/0/' + positionLat + '/' + positionLon, "_self");
                     });
         }
 
