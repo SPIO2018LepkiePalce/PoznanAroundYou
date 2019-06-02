@@ -85,6 +85,17 @@
 
         #panel input {
             padding-left: 5px;
+            position: relative;
+        }
+
+        .localize-me {
+            position: absolute;
+            left: 350px;
+            top: 50px;
+            height: 50px;
+            width: 50px;
+            background-color: green;
+            z-index: 2;
         }
 
         #panel button {
@@ -159,6 +170,7 @@
     <div id="map-wrapper">
     </div>
     <div id="panel">
+     <div class="localize-me"></div>
         <input type="text" id="address" class="location">
         <select name="" id="items-type">
             <option value="bikes">Stacje rowerów</option>
@@ -196,20 +208,30 @@
         }
 
         function showPosition(position) {
-            console.log('wykrylem ' + position.coords.latitude);
-            console.log('wykrylem ' + position.coords.longitude);
+            console.log('wykrylem i przypisuje ' + position.coords.latitude);
+            console.log('wykrylem i przypisuje ' + position.coords.longitude);
             positionLat = position.coords.latitude;
             positionLon = position.coords.longitude;
             initialized = true;
+            window.open('/bikes/' + positionLat + '/' + positionLon, "_self");
         }
 
 
-        getLocation();
+        //getLocation();
 
-        {% comment %} var browserAddress = window.location.href.split("/")
-        positionLat = browserAddress[browserAddress.length - 2];
-        positionLon = browserAddress[browserAddress.length - 1];
-        initialized = true; {% endcomment %}
+        var browserAddress = window.location.href.split("/")
+        positionLat = parseFloat(browserAddress[browserAddress.length - 2]);
+        console.log('przyisuje lat ' + positionLat);
+        positionLon = parseFloat(browserAddress[browserAddress.length - 1]);
+        console.log('przyisuje lng ' + positionLon);
+        initialized = true;
+
+
+        document.querySelector('.localize-me').addEventListener("click", function () {
+            getLocation();
+            
+        });
+
 
         // dodaje obsluge przycisku
         document.querySelector('#search-btn').addEventListener("click", function () {
@@ -266,6 +288,8 @@
 
 
             map = new google.maps.Map(document.getElementById('map-wrapper'), {
+
+
                 center: {
                     lat: positionLat,
                     lng: positionLon
