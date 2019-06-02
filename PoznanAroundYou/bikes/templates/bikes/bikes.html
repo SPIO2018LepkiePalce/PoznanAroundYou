@@ -58,6 +58,16 @@
         #map-wrapper {
             width: 100%;
             height: calc(100vh - 70px);
+            
+        }
+
+         #map-cover {
+            width: 100%;
+            height: calc(100vh - 70px);
+            position: absolute;
+            z-index: 1;
+            background-color: green;
+            
         }
 
         #panel {
@@ -94,8 +104,14 @@
             top: 50px;
             height: 50px;
             width: 50px;
-            background-color: green;
             z-index: 2;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 100%;
+        }
+
+        .localize-me:hover {
+            background-color: #01DF01;
         }
 
         #panel button {
@@ -164,13 +180,14 @@
 {% load static %}
 
     <header>
-        <div class="logo"><img src="{% static "bike/logo.png" %}" alt="My image"></div>
+        <div class="logo"><img src="{% static "bikes/logo.png" %}" alt="My image"></div>
         <div class="caption"><p>City around you</p><span>Poznań</span></div>
     </header>
+    <div id="map-cover"></div>
     <div id="map-wrapper">
     </div>
     <div id="panel">
-     <div class="localize-me"></div>
+     <div class="localize-me"><img src="{% static "bikes/localize_icon.png" %}" alt="My image" style="width: 70%;"></div>
         <input type="text" id="address" class="location">
         <select name="" id="items-type">
             <option value="bikes">Stacje rowerów</option>
@@ -294,7 +311,7 @@
                     lat: positionLat,
                     lng: positionLon
                 },
-                zoom: 12,
+                zoom: 15,
                 zoomControl: true,
                 mapTypeControl: false,
                 scaleControl: false,
@@ -322,7 +339,7 @@
                         lng: {{results.response.0.lat}}
                     },
                     map: map,
-                    title: "Hello World!"
+                    title: "{{results.response.0.name}}"
                 });
 
                 var marker_2 = new google.maps.Marker({
@@ -403,6 +420,8 @@
 
         if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
             document.getElementById('result-wrapper').style.visibility = "visible";
+            document.getElementById('map-cover').style.display = "none";
+            }
 
             var marker_2 = new google.maps.Marker({
                 position: {
@@ -414,7 +433,7 @@
             marker_2.setMap(map);
 
 
-        }
+        
 
         /* function showResults() {
             if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
