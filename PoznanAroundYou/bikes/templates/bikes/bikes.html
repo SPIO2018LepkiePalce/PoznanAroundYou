@@ -66,7 +66,7 @@
             height: calc(100vh - 70px);
             position: absolute;
             z-index: 1;
-            background-color: green;
+            background-image: url("http://cityaroundyou.pl/bg.jpg");
             
         }
 
@@ -76,7 +76,7 @@
             left: 0;
             width: 400px;
             margin-left: 10%;
-            padding: 50px 0;
+            padding-top: 50px;
             z-index: 1;
         }
 
@@ -329,7 +329,7 @@
                 
                 title: 'Twoja pozycja!'
             });
-            var icon = {url: '{% static "bike/logo.png" %}', size: new google.maps.Size(50, 50)};
+            var icon = {url: 'http://cityaroundyou.pl/Vector.png', size: new google.maps.Size(50, 50)};
             marker.setIcon(icon);
             
             if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
@@ -348,7 +348,7 @@
                         lng: {{results.response.1.lat}}
                     },
                     map: map,
-                    title: "Hello World!"
+                    title: "{{results.response.1.name}}"
                 });
 
                 var marker_3 = new google.maps.Marker({
@@ -357,7 +357,7 @@
                         lng: {{results.response.2.lat}}
                     },
                     map: map,
-                    title: "Hello World!"
+                    title: "{{results.response.2.name}}"
                 });
 
                 var marker_4 = new google.maps.Marker({
@@ -366,7 +366,7 @@
                         lng: {{results.response.3.lat}}
                     },
                     map: map,
-                    title: "Hello World!"
+                    title: "{{results.response.3.name}}"
                 });
 
                 var marker_5 = new google.maps.Marker({
@@ -375,7 +375,7 @@
                         lng: {{results.response.4.lat}}
                     },
                     map: map,
-                    title: "Hello World!"
+                    title: "{{results.response.4.name}}"
                 });
 
             }
