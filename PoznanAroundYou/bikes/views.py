@@ -71,7 +71,6 @@ def default(request):
     response = redirect('/bikes/0/0')
     return response
 
-
 def index(request, lat, lon):
     br = BikeRacks()
     my_loc = (float(lon), float(lat))
