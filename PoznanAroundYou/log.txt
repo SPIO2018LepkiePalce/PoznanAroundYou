@@ -1,0 +1,128 @@
+02.06.19 - 10:49:28.987321 BIKES request logged, the file is 9999 seconds old 
+02.06.19 - 10:49:29.168218 BIKES was read from online API 
+02.06.19 - 10:49:29.191204 BIKES was saved to file 
+02.06.19 - 10:50:48.238012 BIKES request logged, the file is 79 seconds old 
+02.06.19 - 10:50:48.242011 BIKES was read from file 
+02.06.19 - 10:53:04.901391 BIKES request logged, the file is 215 seconds old 
+02.06.19 - 10:53:04.905389 BIKES was read from file 
+02.06.19 - 10:53:50.265736 BIKES request logged, the file is 261 seconds old 
+02.06.19 - 10:53:50.269739 BIKES was read from file 
+02.06.19 - 10:55:13.863945 BIKES request logged, the file is 344 seconds old 
+02.06.19 - 10:55:14.034849 BIKES was read from online API 
+02.06.19 - 10:55:14.058833 BIKES was saved to file 
+02.06.19 - 10:55:44.344060 BIKES request logged, the file is 30 seconds old 
+02.06.19 - 10:55:44.347058 BIKES was read from file 
+02.06.19 - 10:56:11.255316 BIKES request logged, the file is 57 seconds old 
+02.06.19 - 10:56:11.259319 BIKES was read from file 
+02.06.19 - 10:56:33.373633 BIKES request logged, the file is 79 seconds old 
+02.06.19 - 10:56:33.376629 BIKES was read from file 
+02.06.19 - 10:56:43.604097 BIKES request logged, the file is 89 seconds old 
+02.06.19 - 10:56:43.608096 BIKES was read from file 
+02.06.19 - 10:57:40.246564 BIKES request logged, the file is 146 seconds old 
+02.06.19 - 10:57:40.249563 BIKES was read from file 
+02.06.19 - 10:58:18.926659 BIKES request logged, the file is 184 seconds old 
+02.06.19 - 10:58:18.929659 BIKES was read from file 
+02.06.19 - 10:58:19.252450 BIKES request logged, the file is 185 seconds old 
+02.06.19 - 10:58:19.256450 BIKES was read from file 
+02.06.19 - 10:58:39.074491 BIKES request logged, the file is 205 seconds old 
+02.06.19 - 10:58:39.078490 BIKES was read from file 
+02.06.19 - 10:58:42.407983 BIKES request logged, the file is 208 seconds old 
+02.06.19 - 10:58:42.411980 BIKES was read from file 
+02.06.19 - 10:58:44.117504 BIKES request logged, the file is 210 seconds old 
+02.06.19 - 10:58:44.121503 BIKES was read from file 
+02.06.19 - 10:58:45.494207 BIKES request logged, the file is 211 seconds old 
+02.06.19 - 10:58:45.498204 BIKES was read from file 
+02.06.19 - 10:58:46.495636 BIKES request logged, the file is 212 seconds old 
+02.06.19 - 10:58:46.499631 BIKES was read from file 
+02.06.19 - 10:58:47.339151 BIKES request logged, the file is 213 seconds old 
+02.06.19 - 10:58:47.343149 BIKES was read from file 
+02.06.19 - 10:58:48.301601 BIKES request logged, the file is 214 seconds old 
+02.06.19 - 10:58:48.306597 BIKES was read from file 
+02.06.19 - 10:58:49.984948 BIKES request logged, the file is 215 seconds old 
+02.06.19 - 10:58:49.987947 BIKES was read from file 
+02.06.19 - 10:58:55.798594 BIKES request logged, the file is 221 seconds old 
+02.06.19 - 10:58:55.801591 BIKES was read from file 
+02.06.19 - 10:59:17.561907 BIKES request logged, the file is 243 seconds old 
+02.06.19 - 10:59:17.565904 BIKES was read from file 
+02.06.19 - 11:03:39.653011 BIKES request logged, the file is 505 seconds old 
+02.06.19 - 11:03:39.802928 BIKES was read from online API 
+02.06.19 - 11:03:39.819915 BIKES was saved to file 
+02.06.19 - 11:03:56.900842 BIKES request logged, the file is 17 seconds old 
+02.06.19 - 11:03:56.906838 BIKES was read from file 
+02.06.19 - 11:06:43.151506 BIKES request logged, the file is 183 seconds old 
+02.06.19 - 11:06:43.154505 BIKES was read from file 
+02.06.19 - 11:06:44.334682 BIKES request logged, the file is 184 seconds old 
+02.06.19 - 11:06:44.337677 BIKES was read from file 
+02.06.19 - 11:08:09.369011 BIKES request logged, the file is 269 seconds old 
+02.06.19 - 11:08:09.372010 BIKES was read from file 
+02.06.19 - 11:14:54.674273 BIKES request logged, the file is 674 seconds old 
+02.06.19 - 11:14:54.844196 BIKES was read from online API 
+02.06.19 - 11:14:54.859167 BIKES was saved to file 
+02.06.19 - 11:15:07.950737 BIKES request logged, the file is 13 seconds old 
+02.06.19 - 11:15:07.954737 BIKES was read from file 
+02.06.19 - 11:17:31.172796 BIKES request logged, the file is 156 seconds old 
+02.06.19 - 11:17:31.175794 BIKES was read from file 
+02.06.19 - 11:17:34.678035 BIKES request logged, the file is 159 seconds old 
+02.06.19 - 11:17:34.681032 BIKES was read from file 
+02.06.19 - 11:17:43.766828 BIKES request logged, the file is 168 seconds old 
+02.06.19 - 11:17:43.770826 BIKES was read from file 
+02.06.19 - 11:17:53.421649 BIKES request logged, the file is 178 seconds old 
+02.06.19 - 11:17:53.425646 BIKES was read from file 
+02.06.19 - 11:17:55.286582 BIKES request logged, the file is 180 seconds old 
+02.06.19 - 11:17:55.289580 BIKES was read from file 
+02.06.19 - 11:17:56.571846 BIKES request logged, the file is 181 seconds old 
+02.06.19 - 11:17:56.576842 BIKES was read from file 
+02.06.19 - 11:18:03.864673 BIKES request logged, the file is 189 seconds old 
+02.06.19 - 11:18:03.868674 BIKES was read from file 
+02.06.19 - 11:18:22.381897 BIKES request logged, the file is 207 seconds old 
+02.06.19 - 11:18:22.385883 BIKES was read from file 
+02.06.19 - 11:18:38.496419 BIKES request logged, the file is 223 seconds old 
+02.06.19 - 11:18:38.500417 BIKES was read from file 
+02.06.19 - 11:18:45.484858 BIKES request logged, the file is 230 seconds old 
+02.06.19 - 11:18:45.488851 BIKES was read from file 
+02.06.19 - 11:20:44.467921 BIKES request logged, the file is 349 seconds old 
+02.06.19 - 11:20:44.665807 BIKES was read from online API 
+02.06.19 - 11:20:44.692792 BIKES was saved to file 
+02.06.19 - 11:21:58.238580 BIKES request logged, the file is 73 seconds old 
+02.06.19 - 11:21:58.242577 BIKES was read from file 
+02.06.19 - 11:22:18.308528 BIKES request logged, the file is 93 seconds old 
+02.06.19 - 11:22:18.311527 BIKES was read from file 
+02.06.19 - 11:22:34.649323 BIKES request logged, the file is 109 seconds old 
+02.06.19 - 11:22:34.652322 BIKES was read from file 
+02.06.19 - 11:23:12.285439 BIKES request logged, the file is 147 seconds old 
+02.06.19 - 11:23:12.290439 BIKES was read from file 
+02.06.19 - 11:24:35.167833 BIKES request logged, the file is 230 seconds old 
+02.06.19 - 11:24:35.170831 BIKES was read from file 
+02.06.19 - 11:24:40.159978 BIKES request logged, the file is 235 seconds old 
+02.06.19 - 11:24:40.162975 BIKES was read from file 
+02.06.19 - 11:25:27.668315 BIKES request logged, the file is 282 seconds old 
+02.06.19 - 11:25:27.672312 BIKES was read from file 
+02.06.19 - 11:25:38.638617 BIKES request logged, the file is 293 seconds old 
+02.06.19 - 11:25:38.641614 BIKES was read from file 
+02.06.19 - 11:25:46.694033 BIKES request logged, the file is 302 seconds old 
+02.06.19 - 11:25:46.875929 BIKES was read from online API 
+02.06.19 - 11:25:46.892919 BIKES was saved to file 
+02.06.19 - 11:25:55.149922 BIKES request logged, the file is 8 seconds old 
+02.06.19 - 11:25:55.154916 BIKES was read from file 
+02.06.19 - 11:26:18.729757 BIKES request logged, the file is 31 seconds old 
+02.06.19 - 11:26:18.733755 BIKES was read from file 
+02.06.19 - 11:26:20.559755 BIKES request logged, the file is 33 seconds old 
+02.06.19 - 11:26:20.562754 BIKES was read from file 
+02.06.19 - 11:27:35.892418 BIKES request logged, the file is 108 seconds old 
+02.06.19 - 11:27:35.895416 BIKES was read from file 
+02.06.19 - 11:27:45.668767 BIKES request logged, the file is 118 seconds old 
+02.06.19 - 11:27:45.671764 BIKES was read from file 
+02.06.19 - 11:28:30.588199 BIKES request logged, the file is 163 seconds old 
+02.06.19 - 11:28:30.592198 BIKES was read from file 
+02.06.19 - 11:28:46.289633 BIKES request logged, the file is 179 seconds old 
+02.06.19 - 11:28:46.293630 BIKES was read from file 
+02.06.19 - 11:28:47.424213 BIKES request logged, the file is 180 seconds old 
+02.06.19 - 11:28:47.427210 BIKES was read from file 
+02.06.19 - 11:29:01.179371 BIKES request logged, the file is 194 seconds old 
+02.06.19 - 11:29:01.182369 BIKES was read from file 
+02.06.19 - 11:29:09.453617 BIKES request logged, the file is 202 seconds old 
+02.06.19 - 11:29:09.456615 BIKES was read from file 
+02.06.19 - 11:29:11.892007 BIKES request logged, the file is 204 seconds old 
+02.06.19 - 11:29:11.894006 BIKES was read from file 
+02.06.19 - 11:29:26.046088 BIKES request logged, the file is 219 seconds old 
+02.06.19 - 11:29:26.051083 BIKES was read from file 

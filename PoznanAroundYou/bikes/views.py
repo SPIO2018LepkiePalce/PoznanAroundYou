@@ -68,10 +68,10 @@ class BikeRacks:
 
 
 def default(request):
-    response = redirect('/bikes/0/0')
+    response = redirect('/bikes/0/0/0')
     return response
 
-def index(request, lat, lon):
+def index(request, status, lat, lon):
     br = BikeRacks()
     my_loc = (float(lon), float(lat))
     br.find_bikerack_distances(my_loc)
