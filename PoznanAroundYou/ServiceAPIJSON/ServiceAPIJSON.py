@@ -1,16 +1,21 @@
 import requests
 import unittest
+import json
 
 class ServiceAPIJSON:
     def __init__(self, type):
         self.status_code = 0
         self.service_api_json = self.download_json_from_api(type)
+        self.save_json_to_file(type)
 
     def get_json(self):
         return self.service_api_json
 
+    def save_json_to_file(self, type):
+        with open(type + "_JSON.txt", "w") as jsonfile:
+            json.dump(self.get_json(), jsonfile)
+
     def download_json_from_api(self, type):
-        url = ""
         if type == "STOPS":
             url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=cluster"
         elif type == "TICKETMACHINES":
@@ -25,6 +30,7 @@ class ServiceAPIJSON:
             self.status_code = r.status_code
         except ConnectionError:
             return {}
+        self.status_code = r.status_code
         return r.json()
 
 
