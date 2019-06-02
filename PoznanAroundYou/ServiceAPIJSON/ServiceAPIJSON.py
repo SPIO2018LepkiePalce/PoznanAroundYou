@@ -3,17 +3,20 @@ import unittest
 import json
 import os
 import time
+from datetime import datetime
 
 SUFFIX = "_JSON.txt"
 LOGFILENAME = "log.txt"
 
 def log_event(txt):
+    logstring = " ".join((datetime.utcnow().strftime('%d.%m.%y - %H:%M:%S.%f'), txt, "\n"))
+
     if os.path.isfile(LOGFILENAME):
         with open(LOGFILENAME, "a") as logfile:
-            logfile.write(txt + "\n")
+            logfile.write(logstring)
     else:
         with open(LOGFILENAME, "w") as logfile:
-            logfile.write(txt + "\n")
+            logfile.write(logstring)
 
 
 class ServiceAPIJSON:
