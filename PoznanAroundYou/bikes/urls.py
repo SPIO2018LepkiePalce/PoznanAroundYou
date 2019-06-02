@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('<lat>/<lon>', views.index, name='index'),
-    path('', views.default, name='default')
+    path('', views.default, name='default'),
 ]
 
 # push git
