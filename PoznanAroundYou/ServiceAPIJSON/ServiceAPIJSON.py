@@ -4,23 +4,24 @@ import json
 
 class ServiceAPIJSON:
     def __init__(self, type):
+        self.type = type
         self.status_code = 0
-        self.service_api_json = self.download_json_from_api(type)
-        self.save_json_to_file(type)
+        self.service_api_json = self.download_json_from_api()
+
 
     def get_json(self):
         return self.service_api_json
 
-    def save_json_to_file(self, type):
-        with open(type + "_JSON.txt", "w") as jsonfile:
+    def save_json_to_file(self):
+        with open(self.type + "_JSON.txt", "w") as jsonfile:
             json.dump(self.get_json(), jsonfile)
 
-    def download_json_from_api(self, type):
-        if type == "STOPS":
+    def download_json_from_api(self):
+        if self.type == "STOPS":
             url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=cluster"
-        elif type == "TICKETMACHINES":
+        elif self.type == "TICKETMACHINES":
             url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=class_objects&class_id=4000"
-        elif type == "BIKES":
+        elif self.type == "BIKES":
             url = "http://www.poznan.pl/mim/plan/map_service.html?mtype=pub_transport&co=stacje_rowerowe"
         else:
             return {}
