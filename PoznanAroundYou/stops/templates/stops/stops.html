@@ -1,10 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>City Around</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans';
+            font-size: 15px;
+            font-weight: 700;
+            box-sizing: border-box;
+        }
+
+        header {
+            width: 100%;
+            height: 70px;
+            background-color: #3055A3;
+        }
+
+        header .logo {
+            height: 100%;
+            width: 10%;
+            text-align: center;
+            float: left;
+        }
+
+        .logo img {
+            width: auto;
+            height: 100%;
+        }
+
+        header .caption {
+            height: 100%;
+            width: 90%;
+            float: right;
+            padding-top: 10px;
+
+        }
+
+        .caption p {
+            color: white;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .caption span {
+            color: yellow;
+            font-size: 25px;
+        }
+
+        #map-wrapper {
+            width: 100%;
+            height: calc(100vh - 70px);
+        }
+
+        #panel {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 400px;
+            margin-left: 10%;
+            padding: 50px 0;
+            z-index: 1;
+        }
+
+        #panel input,
+        #panel select,
+        #panel button {
+            display: block;
+            width: 100%;
+            border: 1px solid #CFCAC4;
+            border-radius: 2px;
+            height: 50px;
+            margin-bottom: 15px;
+            color: #747474;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        #panel input {
+            padding-left: 5px;
+        }
+
+        #panel button {
+            background-color: #01DF01;
+            border: none;
+            color: white;
+            text-transform: uppercase;
+        }
+
+
+        div.result-element {
+            --result-element-height: 80px;
+            height: var(--result-element-height);
+            width: 100%;
+            background-image: linear-gradient(white, #DCDCDC);
+        }
+
+        div.left-column {
+            width: 70%;
+            height: 100%;
+            float: left;
+        }
+
+        div.right-column {
+            width: 30%;
+            height: 100%;
+            float: right;
+            line-height: var(--result-element-height);
+            text-align: right;
+            padding-right: 20px;
+            font-size: 25px;
+            color: #00ADEF;
+
+        }
+
+        div.right-column i {
+            font-size: 25px;
+            color: black;
+
+        }
+
+        div.name {
+            line-height: calc(var(--result-element-height)/2);
+            font-size: 14px;
+            font-weight: 700;
+            padding-left: 10px;
+        }
+
+        div.distance {
+            font-weight: 400;
+            padding-left: 10px;
+        }
+
+        .visible {
+            visibility: visible;
+        }
+
+        #result-wrapper {
+            visibility: hidden;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    </style>
 </head>
+
 <body>
-{{results}}
+{% load static %}
+
+    <header>
+        <div class="logo"><img src="{% static "bike/logo.png" %}" alt="My image"></div>
+        <div class="caption"><p>City around you</p><span>Poznań</span></div>
+    </header>
+    <div id="map-wrapper">
+    </div>
+    <div id="panel">
+        <input type="text" id="address" class="location">
+        <select name="" id="items-type">
+            <option value="bikes">Stacje rowerów</option>
+            <option value="ticket_machines">Biletomaty</option>
+            <option value="parking_machines">Parkometry</option>
+        </select>
+        <button id="search-btn">Wyszukiwanie</button>
+        <div id="result-wrapper"></div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- skrypty-->
+    <script>
+
+
+
+        var positionLat = 0;
+        var positionLon = 0;
+        var initialized = false;
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            console.log('wykrylem ' + position.coords.latitude);
+            console.log('wykrylem ' + position.coords.longitude);
+            positionLat = position.coords.latitude;
+            positionLon = position.coords.longitude;
+            initialized = true;
+        }
+
+
+        getLocation();
+
+        {% comment %} var browserAddress = window.location.href.split("/")
+        positionLat = browserAddress[browserAddress.length - 2];
+        positionLon = browserAddress[browserAddress.length - 1];
+        initialized = true; {% endcomment %}
+
+        // dodaje obsluge przycisku
+        document.querySelector('#search-btn').addEventListener("click", function () {
+            fetchData(myAddress);
+        });
+
+    </script>
+
+    <script>
+        // laduje mapke google z aktualnym polozeniem
+        var map;
+        var autocomplete;
+        var myAddress;
+
+        function fetchData(adres_inputa_string) {
+
+            let re = new RegExp(' ', 'g');
+            let searchFor = adres_inputa_string.replace(re, '+');
+            console.log('szukam koordynat dla: ' + searchFor);
+            fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + searchFor + '&key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw')
+                    .then(function(response) {
+                    return response.json();
+                    })
+                    .then(function(myJson) {
+                    positionLat = myJson.results[0].geometry.location.lat;
+                    positionLon = myJson.results[0].geometry.location.lng;
+                    window.open('/bikes/' + positionLat + '/' + positionLon, "_self");
+                    });
+        }
+
+        function initMap() {
+            if (!initialized) {
+                setTimeout(initMap, 1000);
+                return;
+            }
+
+
+                autocomplete = new google.maps.places.Autocomplete(document.getElementById("address"), {});
+
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    var place = autocomplete.getPlace();
+                    console.log('autouzupelniam ' + place.address_components);
+                    myAddress = document.getElementById("address").value;
+                    //konwertuj do stringa
+
+
+
+
+
+                });
+
+
+
+
+
+            map = new google.maps.Map(document.getElementById('map-wrapper'), {
+                center: {
+                    lat: positionLat,
+                    lng: positionLon
+                },
+                zoom: 15,
+                zoomControl: true,
+                mapTypeControl: false,
+                scaleControl: false,
+                streetViewControl: false,
+                rotateControl: false,
+                fullscreenControl: false
+            });
+
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: positionLat,
+                    lng: positionLon
+                },
+                map: map,
+
+                title: 'Twoja pozycja!'
+            });
+            var icon = {url: '{% static "bike/logo.png" %}', size: new google.maps.Size(50, 50)};
+            marker.setIcon(icon);
+
+            if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
+                var marker_1 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.0.lon}},
+                        lng: {{results.response.0.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_2 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.1.lon}},
+                        lng: {{results.response.1.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_3 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.2.lon}},
+                        lng: {{results.response.2.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_4 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.3.lon}},
+                        lng: {{results.response.3.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+                var marker_5 = new google.maps.Marker({
+                    position: {
+                        lat: {{results.response.4.lon}},
+                        lng: {{results.response.4.lat}}
+                    },
+                    map: map,
+                    title: "Hello World!"
+                });
+
+            }
+
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw&callback=initMap&libraries=places"
+        async defer>
+    </script>
+
+    <script>
+        var itemToAdd = document.createElement("div");
+        itemToAdd.classList.add('result-element');
+        itemToAdd.innerHTML =
+            '<div class="left-column"><div class="name"><i class="fas fa-map-pin"></i> {{results.response.0.name}}</div><div class="distance"><i class="fas fa-road"></i> {{results.response.0.distance_to}} metrów stąd</div></div><div class="right-column">{{results.response.0.lines}} <i class="fas fa-bicycle"></i></div>'; // Insert text
+        document.getElementById('result-wrapper').appendChild(itemToAdd);
+
+        var itemToAdd = document.createElement("div");
+        itemToAdd.classList.add('result-element');
+        itemToAdd.innerHTML =
+            '<div class="left-column"><div class="name"><i class="fas fa-map-pin"></i> {{results.response.1.name}}</div><div class="distance"><i class="fas fa-road"></i> {{results.response.1.distance_to}} metrów stąd</div></div><div class="right-column">{{results.response.1.lines}} <i class="fas fa-bicycle"></i></div>'; // Insert text
+        document.getElementById('result-wrapper').appendChild(itemToAdd);
+
+        var itemToAdd = document.createElement("div");
+        itemToAdd.classList.add('result-element');
+        itemToAdd.innerHTML =
+            '<div class="left-column"><div class="name"><i class="fas fa-map-pin"></i> {{results.response.2.name}}</div><div class="distance"><i class="fas fa-road"></i> {{results.response.2.distance_to}} metrów stąd</div></div><div class="right-column">{{results.response.2.lines}} <i class="fas fa-bicycle"></i></div>'; // Insert text
+        document.getElementById('result-wrapper').appendChild(itemToAdd);
+
+        var itemToAdd = document.createElement("div");
+        itemToAdd.classList.add('result-element');
+        itemToAdd.innerHTML =
+            '<div class="left-column"><div class="name"><i class="fas fa-map-pin"></i> {{results.response.3.name}}</div><div class="distance"><i class="fas fa-road"></i> {{results.response.3.distance_to}} metrów stąd</div></div><div class="right-column">{{results.response.3.lines}} <i class="fas fa-bicycle"></i></div>'; // Insert text
+        document.getElementById('result-wrapper').appendChild(itemToAdd);
+
+        var itemToAdd = document.createElement("div");
+        itemToAdd.classList.add('result-element');
+        itemToAdd.innerHTML =
+            '<div class="left-column"><div class="name"><i class="fas fa-map-pin"></i> {{results.response.4.name}}</div><div class="distance"><i class="fas fa-road"></i> {{results.response.4.distance_to}} metrów stąd</div></div><div class="right-column">{{results.response.4.lines}} <i class="fas fa-bicycle"></i></div>'; // Insert text
+        document.getElementById('result-wrapper').appendChild(itemToAdd);
+
+        if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
+            document.getElementById('result-wrapper').style.visibility = "visible";
+
+            var marker_2 = new google.maps.Marker({
+                position: {
+                    lat: 52.401802,
+                    lng: 16.899802
+                },
+                title: "Hello World!"
+            });
+            marker_2.setMap(map);
+
+
+        }
+
+        /* function showResults() {
+            if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
+                document.getElementById('result-wrapper').style.visibility = "visible";
+            }
+
+        }; */
+    </script>
+
+    <script src="https://kit.fontawesome.com/cdc21249f1.js"></script>
+
+
+
 </body>
+
 </html>
+
+<!-- wersja 2.0 by mackowiak -->

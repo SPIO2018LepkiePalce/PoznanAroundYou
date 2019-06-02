@@ -20,7 +20,7 @@ class TransportStop:
     def as_dict(self):
         transportstop_dict = dict()
         transportstop_dict['name'] = self.name
-        transportstop_dict['lines'] = self.lines
+        transportstop_dict['lines'] = " ".join(self.lines)
         transportstop_dict['lon'] = self.lon
         transportstop_dict['lat'] = self.lat
         transportstop_dict['distance_to'] = self.distance_to
@@ -69,7 +69,7 @@ class TransportStops:
 
 
 def default(request):
-    response = redirect('/ticketmachines/0/0')
+    response = redirect('/stops/0/0')
     return response
 
 
@@ -79,8 +79,8 @@ def index(request, lat, lon):
     ts.find_transport_stop_distances(my_loc)
     ts.sort_transport_stops_by_distance()
     if lat == "0" and lon == "0":
-        results = ts.get_transport_stops_data_as_dict(0)
+        results = ts.get_transport_stops_data_as_dict(5)
     else:
         results = ts.get_transport_stops_data_as_dict(5)
-    return render(request, 'ticketmachines/ticketmachines.html', {'results': results})
+    return render(request, 'stops/stops.html', {'results': results})
 
