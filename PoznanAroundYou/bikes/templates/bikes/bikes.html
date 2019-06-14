@@ -66,7 +66,7 @@
             height: calc(100vh - 70px);
             position: absolute;
             z-index: 1;
-            background-image: url("http://cityaroundyou.pl/bg.jpg");
+            background-image: url("/static/bikes/bg.jpg");
             
         }
 
@@ -430,7 +430,7 @@ header .caption {
                 
                 title: 'Twoja pozycja!'
             });
-            var icon = {url: 'http://cityaroundyou.pl/Vector.png', size: new google.maps.Size(50, 50)};
+            var icon = {url: '/static/bikes/Vector.png', size: new google.maps.Size(50, 50)};
             marker.setIcon(icon);
             
             if (!(window.location.href.indexOf('bikes/0/0') > -1)) {
