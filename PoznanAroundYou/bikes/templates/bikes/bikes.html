@@ -369,7 +369,7 @@ header .caption {
             let re = new RegExp(' ', 'g');
             let searchFor = adres_inputa_string.replace(re, '+');
             console.log('szukam koordynat dla: ' + searchFor);
-            fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + searchFor + '&key=AIzaSyCD6X2sNtsE5pe9ckHgm1Ot8-G7NALLOJw')
+            fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + searchFor + '&key=<put api key here>')
                     .then(function(response) {
                     return response.json();
                     })
